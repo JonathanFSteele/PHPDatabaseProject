@@ -1,5 +1,5 @@
 <head>
-  <title>Hello, world!</title>
+  <title>Home</title>
   <?php require "master_head.php"  ?>
 </head>
 <body>
