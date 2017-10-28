@@ -1,3 +1,7 @@
+##Important
+Rename MySqlInfo_Example.php to MySqlInfo.php
+Add database information into MySqlInfo.php
+
 ##Apache / PHP on Mac OS:
 
 https://coolestguidesontheplanet.com/get-apache-mysql-php-and-phpmyadmin-working-on-macos-sierra/
