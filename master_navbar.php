@@ -12,10 +12,10 @@
       </ul>
       <ul class="navbar-nav my-2 my-lg-0">
         <li class="nav-item">
-          <a class="nav-link" href="profile">Profile</a>
+          <a class="nav-link" href="profile.php">Profile</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="login">Logout</a>
+          <a class="nav-link" href="login.php">Logout</a>
         </li>
       </ul>
     </div>

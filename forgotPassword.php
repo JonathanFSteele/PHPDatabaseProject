@@ -17,7 +17,7 @@
       <button class="btn btn-lg btn-primary btn-block" type="submit">Reset</button>
       <br />
       <div style="text-align: center;">
-        <a href="login">Back</a>
+        <a href="login.php">Back</a>
       </div>
     </form>
   </div>

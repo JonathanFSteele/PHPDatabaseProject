@@ -20,7 +20,7 @@
       <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
       <br />
       <div style="text-align: center;">
-        <a href="forgotPassword">Forgot Password</a>
+        <a href="forgotPassword.php">Forgot Password</a>
       </div>
     </form>
   </div>
