@@ -51,3 +51,8 @@ ec.steeleconsult.com / 54.186.5.231 - web box
 un/pw - gsteele / [hard]
 
 /users/greggorysteele/Sites
+
+
+
+Delete History:
+https://stackoverflow.com/questions/41953300/how-to-delete-the-old-git-history
