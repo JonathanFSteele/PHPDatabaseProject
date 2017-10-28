@@ -49,14 +49,5 @@ https://www.w3schools.com/php/php_mysql_select.asp
 
 mySQL libraries come with PHP. No extra installs needed.
 
-Dev
-ec.steeleconsult.com / 54.186.5.231 - web box
-54.186.5.231 - database
-un/pw - gsteele / [hard]
-
-/users/greggorysteele/Sites
-
-
-
 Delete History:
 https://stackoverflow.com/questions/41953300/how-to-delete-the-old-git-history
