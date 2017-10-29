@@ -13,7 +13,7 @@
     if (empty($_POST["loginid"])) {
       $emailErr = "LoginID is required";
     } else {
-      $LoginID = test_input($_POST["loginemail"]);
+      $LoginID = test_input($_POST["loginid"]);
       // check if name only contains letters and whitespace
       if (!preg_match("/^[a-zA-Z ]*$/",$LoginID)) {
         $emailErr = "Only letters and white space allowed";
@@ -32,8 +32,8 @@
   try {
       $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
       $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-      $stmt = $conn->prepare("SELECT * FROM Player WHERE LoginID=:loginemail AND Password=:loginpassword");
-      $stmt->bindParam(':loginemail', $LoginID);
+      $stmt = $conn->prepare("SELECT * FROM Player WHERE LoginID=:loginid AND Password=:loginpassword");
+      $stmt->bindParam(':loginid', $LoginID);
       $stmt->bindParam(':loginpassword', $loginpassword);
       $stmt->execute();
       $LoginSuccessTF = false;
