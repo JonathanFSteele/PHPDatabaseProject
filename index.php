@@ -1,6 +1,7 @@
 <head>
   <title>Home</title>
   <?php require "master_head.php"  ?>
+  <?php require 'MySqlInfo.php' ?>
 </head>
 <body>
   <?php require "master_navbar.php" ?>
@@ -11,6 +12,9 @@
   </div>
   <div class="container">
     <?php
+
+    echo "LoginID: ".$_SESSION["LoginID"];
+
     echo "Host:", $_SERVER['HTTP_HOST'], "<br />";
     echo "Query string:", $_SERVER['QUERY_STRING'], "<br />";
     echo "Requst test= ", $_REQUEST['test'], "<br />";
