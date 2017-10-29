@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <head>
   <title>Home</title>
   <?php require "master_head.php"  ?>
