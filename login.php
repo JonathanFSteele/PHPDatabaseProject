@@ -7,6 +7,9 @@
   $LoginPassword = "";
   $LoginErr = "";
   $LoginPasswordErr = "";
+  $LoginRowID = 0;
+  $LoginRole = "";
+  $LoginName = "";
 
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -41,7 +44,7 @@
 
       $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
       $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-      $stmt = $conn->prepare("SELECT * FROM Player WHERE LoginID=:LoginID AND Password=:LoginPassword");
+      $stmt = $conn->prepare("SELECT * FROM UserView WHERE LoginID=:LoginID AND Password=:LoginPassword");
       $stmt->bindParam(':LoginID', $LoginID);
       $stmt->bindParam(':LoginPassword', $LoginPassword);
       $stmt->execute();
@@ -52,6 +55,11 @@
       $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
       foreach (new RecursiveArrayIterator($stmt->fetchAll()) as $k=>$v) {
           $LoginSuccessTF = true;
+          $LoginRowID = $v[ID];
+          $LoginName = $v[Name];
+          $LoginRole = $v[Role];
+          //ADD THE REST OF THEM HERE
+          //print_r($v);
       }
 
       //Successfull Login if LoginSuccessTF = True
@@ -59,7 +67,10 @@
       {
         // Set session variables
         $_SESSION["LoginID"] = $LoginID;
-        $_SESSION["Role"]= "Player"; //This should come from the database
+        $_SESSION["LoginRowID"] = $LoginRowID;
+        $_SESSION["LoginName"] = $LoginName;
+        $_SESSION["Role"]= $LoginRole; //This should come from the database
+        //ADD THE REST OF THEM HERE
         header("Location: index.php");
         //header("Location: sessionPrint.php");
       }
