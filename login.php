@@ -1,6 +1,6 @@
 <?php
   //Start the session
-  //session_start();
+  session_start();
 
   require 'MySqlInfo.php';
   $LoginID = "";
