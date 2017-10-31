@@ -1,5 +1,5 @@
 <?php
-  require 'AuthLibraries.php';
+  require 'authLibraries.php';
   redirectIfNotLoggedIn();
 ?>
 <html>
