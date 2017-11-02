@@ -1,3 +1,63 @@
+<?php
+  require 'MySqlInfo.php';
+  require "changePassword.php";
+  $ChosenEmail = $_SESSION['GlobalEmail'];
+  //echo "Global Email: ".$ChosenEmail;
+  $newPassword = "";
+  $newPasswordErr = "";
+  $verifyPassword = "";
+  $verifyPasswordErr = "";
+  if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    function Input($data) {
+      $data = trim($data);
+      $data = stripslashes($data);
+      $data = htmlspecialchars($data);
+      return $data;
+    }
+
+    if (empty($_POST["newPassword"])) {
+      $newPasswordErr = "newPassword is required";
+    } else {
+      $newPassword = Input($_POST["newPassword"]);
+      // check if name only contains letters and whitespace
+      if (!preg_match("/^[a-zA-Z ]*$/",$newPassword)) {
+        $newPasswordErr = "Only letters and white space allowed";
+      }
+    }
+
+    if (empty($_POST["verifyPassword"])) {
+      $verifyPasswordErr = "verifyPassword is required";
+    } else {
+      $verifyPassword = Input($_POST["verifyPassword"]);
+      // check if name only contains letters and whitespace
+      if (!preg_match("/^[a-zA-Z ]*$/",$verifyPassword)) {
+        $verifyPasswordErr = "Only letters and white space allowed";
+      }
+    }
+    //echo "<br />newPassword: ".$newPassword;
+    //echo "<br />verifyPassword: ".$verifyPassword;
+
+    if($newPassword == $verifyPassword)
+    {
+      //echo "WE ARE POSTING ".$EmailAddress;
+      $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+      $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      $UpdateColumn = $conn->prepare("UPDATE Player SET Password=:Password WHERE Email = :EmailAddress");
+      $UpdateColumn->bindParam(':EmailAddress', $ChosenEmail);
+      $UpdateColumn->bindParam(':Password', $newPassword);
+      $UpdateColumn->execute();
+
+      header("Location: login.php");
+
+      $conn = null;
+    }
+    else {
+      $verifyPasswordErr = "";
+    }
+  }
+
+?>
 <head>
   <title>Reset Password</title>
   <?php require "master_head.php"  ?>
@@ -8,14 +68,14 @@
   <br />
   <br />
   <div style="margin-left: 35%; margin-right: 35%;">
-    <form>
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
       <h2 style="text-align: center;">Reset Password</h2>
       <br />
       <label class="sr-only">New Password</label>
-      <input class="form-control" placeholder="New Password" required autofocus autocomplete="off" />
+      <input class="form-control" name="newPassword" placeholder="New Password" value="<?php echo $newPassword ?>" required autofocus autocomplete="off" />
       <br />
       <label class="sr-only">Verify Password</label>
-      <input class="form-control" placeholder="Verify Password" required autofocus autocomplete="off" />
+      <input class="form-control" name="verifyPassword" placeholder="Verify Password" value="<?php echo $verifyPassword ?>" required autofocus autocomplete="off" />
       <br />
       <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
       <br />

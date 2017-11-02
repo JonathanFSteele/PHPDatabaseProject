@@ -38,10 +38,6 @@
     } else {
       $Email = Input($_POST["Email"]);
       // echo $Email."<br />";
-      // check if name only contains letters and whitespace
-      // if (!preg_match("/^[a-zA-Z ]*$/",$Email)) {
-      //   $EmailErr = "Only letters and white space allowed";
-      // }
     }
     // Check if Name is empty
     if (empty($_POST["Name"])) {
@@ -60,10 +56,6 @@
     } else {
       $LoginPassword = Input($_POST["LoginPassword"]);
       // echo $LoginPassword."<br />";
-      // check if name only contains letters and whitespace
-      // if (!preg_match("/^[a-zA-Z ]*$/",$LoginPassword)) {
-      //   $LoginPasswordErr = "Only letters and white space allowed";
-      // }
     }
     // Check if VerifyLoginPassword is empty
     if (empty($_POST["VerifyLoginPassword"])) {
@@ -71,10 +63,6 @@
     } else {
       $VerifyLoginPassword = Input($_POST["VerifyLoginPassword"]);
       // echo $VerifyLoginPassword."<br />";
-      // check if name only contains letters and whitespace
-      // if (!preg_match("/^[a-zA-Z ]*$/",$VerifyLoginPassword)) {
-      //   $VerifyLoginPasswordErr = "Only letters and white space allowed";
-      // }
     }
 
   try {

@@ -1,7 +1,7 @@
 <?php
   //Start the session
-  error_reporting(E_ALL);
-  ini_set('display_errors', 'on');
+  // error_reporting(E_ALL);
+  // ini_set('display_errors', 'on');
   session_start();
 
   require 'MySqlInfo.php';
@@ -73,6 +73,7 @@
         $_SESSION["LoginName"] = $LoginName;
         $_SESSION["Role"]= $LoginRole; //This should come from the database
         //ADD THE REST OF THEM HERE
+        //echo "Loggin In...";
         header("Location: index.php");
         //header("Location: sessionPrint.php");
       }
@@ -98,6 +99,7 @@
   <br />
   <div style="margin-left: 35%; margin-right: 35%;">
     <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+      <!-- <?php echo "<h1>".$_REQUEST[msg]."</h1>" ?> -->
       <h2 style="text-align: center;">Login</h2>
       <br />
       <label class="sr-only">LoginID</label>
