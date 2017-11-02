@@ -87,10 +87,10 @@
       <h2 style="text-align: center;">Reset Password</h2>
       <br />
       <label class="sr-only">New Password</label>
-      <input class="form-control" name="newPassword" placeholder="New Password" type="password" max="6" value="<?php echo $newPassword ?>" required autofocus autocomplete="off" />
+      <input class="form-control" name="newPassword" placeholder="New Password" type="password" maxlength="8" value="<?php echo $newPassword ?>" required autofocus autocomplete="off" />
       <br />
       <label class="sr-only">Verify Password</label>
-      <input class="form-control" name="verifyPassword" placeholder="Verify Password" type="password" max="6" value="<?php echo $verifyPassword ?>" required autofocus autocomplete="off" />
+      <input class="form-control" name="verifyPassword" placeholder="Verify Password" type="password" maxlength="8" value="<?php echo $verifyPassword ?>" required autofocus autocomplete="off" />
       <br />
       <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
       <br />

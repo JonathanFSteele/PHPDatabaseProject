@@ -128,11 +128,11 @@
       <span style="color:red;"><?php echo $NameErr ?></span>
       <br />
       <label class="sr-only">Password</label>
-      <input class="form-control" name="LoginPassword" type="password" placeholder="Password" value="<?php echo $LoginPassword ?>" required autofocus autocomplete="off" />
+      <input class="form-control" name="LoginPassword" type="password" placeholder="Password" maxlength="8" value="<?php echo $LoginPassword ?>" required autofocus autocomplete="off" />
       <span style="color:red;"><?php echo $LoginPasswordErr ?></span>
       <br />
       <label class="sr-only">Verify Password</label>
-      <input class="form-control" name="VerifyLoginPassword" type="password" placeholder="Verify Password" value="<?php echo $VerifyLoginPassword ?>" required autofocus autocomplete="off" />
+      <input class="form-control" name="VerifyLoginPassword" type="password" placeholder="Verify Password" maxlength="8" value="<?php echo $VerifyLoginPassword ?>" required autofocus autocomplete="off" />
       <span style="color:red;"><?php echo $VerifyLoginPasswordErr ?></span>
       <br />
       <button class="btn btn-lg btn-primary btn-block" type="submit" name="submit" value="Submit">Register</button>
