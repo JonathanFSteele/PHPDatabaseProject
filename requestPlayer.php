@@ -70,7 +70,7 @@
     {
       $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
       $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-      $ExistCheckStmt = $conn->prepare("SELECT LoginID, Email FROM Manager WHERE LoginID = :RegisterID OR Email = :RegisterEmail");
+      $ExistCheckStmt = $conn->prepare("SELECT LoginID, Email FROM Player WHERE LoginID = :RegisterID OR Email = :RegisterEmail");
       $ExistCheckStmt->bindParam(':RegisterID', $LoginID);
       $ExistCheckStmt->bindParam(':RegisterEmail', $Email);
       $ExistCheckStmt->execute();
@@ -80,7 +80,7 @@
         $LoginIDErr = "";
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $stmt = $conn->prepare("INSERT INTO Manager(LoginID, Email, Name, Password) VALUES(:RegisterID, :RegisterEmail, :RegisterName, :RegisterPassword)");
+        $stmt = $conn->prepare("INSERT INTO Player(LoginID, Email, Name, Password) VALUES(:RegisterID, :RegisterEmail, :RegisterName, :RegisterPassword)");
         $stmt->bindParam(':RegisterID', $LoginID);
         $stmt->bindParam(':RegisterEmail', $Email);
         $stmt->bindParam(':RegisterName', $Name);
@@ -103,7 +103,7 @@
 
 ?>
 <head>
-  <title>Register</title>
+  <title>Request a User Account</title>
   <?php require "master_head.php"  ?>
 </head>
 <body style="margin-top: 150px;">
@@ -113,7 +113,7 @@
   <br />
   <div style="margin-left: 35%; margin-right: 35%;">
     <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
-      <h2 style="text-align: center;">Register</h2>
+      <h2 style="text-align: center;">Request Player Account</h2>
       <br />
       <label class="sr-only">Login ID</label>
       <input class="form-control" name="LoginID" placeholder="Login ID" value="<?php echo $LoginID ?>" required autofocus autocomplete="off" />
@@ -135,10 +135,10 @@
       <input class="form-control" name="VerifyLoginPassword" type="password" placeholder="Verify Password" value="<?php echo $VerifyLoginPassword ?>" required autofocus autocomplete="off" />
       <span style="color:red;"><?php echo $VerifyLoginPasswordErr ?></span>
       <br />
-      <button class="btn btn-lg btn-primary btn-block" type="submit" name="submit" value="Submit">Register</button>
+      <button class="btn btn-lg btn-primary btn-block" type="submit" name="submit" value="Submit">Request</button>
       <br />
       <div style="text-align: center;">
-        <a href="PlayerOrManager.php">Back</a>
+        <a href="playerOrManager.php">Back</a>
       </div>
     </form>
   </div>

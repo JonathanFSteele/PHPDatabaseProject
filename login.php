@@ -106,14 +106,14 @@
       <input class="form-control" name="LoginID" placeholder="Login ID" value="<?php echo $LoginID ?>" required autofocus autocomplete="off" />
       <br />
       <label class="sr-only">Password</label>
-      <input class="form-control" name="LoginPassword" placeholder="Password" value="<?php echo $LoginPassword ?>" required autofocus autocomplete="off" />
+      <input class="form-control" name="LoginPassword" type="password" placeholder="Password" value="<?php echo $LoginPassword ?>" required autofocus autocomplete="off" />
       <br />
       <button class="btn btn-lg btn-primary btn-block" type="submit" name="submit" value="Submit">Login</button>
       <br />
       <div style="text-align: center;">
         <div class="row">
           <div class="col-md-6">
-            <a href="register.php">Register</a>
+            <a href="playerOrManager.php">Dont have an Account?</a>
           </div>
           <div class="col-md-6">
             <a href="forgotPassword.php">Forgot Password</a>

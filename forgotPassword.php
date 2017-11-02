@@ -30,12 +30,32 @@
     $ExistCheckStmt->execute();
     $count = $ExistCheckStmt->rowCount();
     //echo "<br />count: ".$count;
-    if($count == 1)
+    if($count == 0)
     {
+      //echo "WE ARE POSTING ".$EmailAddress;
+      $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+      $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      $SecExistCheckStmt = $conn->prepare("SELECT Email FROM Manager WHERE Email = :EmailAddress");
+      $SecExistCheckStmt->bindParam(':EmailAddress', $EmailAddress);
+      $SecExistCheckStmt->execute();
+      $Seccount = $SecExistCheckStmt->rowCount();
+      //echo "<br />count: ".$count;
+      if($Seccount == 1) {
+        //echo "WE ARE CHANGING PAGES";
+        $_SESSION['GlobalEmail'] = $EmailAddress;
+        $_SESSION['Table'] = 1;
+        header("Location: resetPassword.php");
+        } else {
+            //Player Or Manager Doesnt Exist
+          }
+    }
+    else {
       //echo "WE ARE CHANGING PAGES";
       $_SESSION['GlobalEmail'] = $EmailAddress;
+      $_SESSION['Table'] = 0;
       header("Location: resetPassword.php");
     }
+
     $conn = null;
   }
 ?>
