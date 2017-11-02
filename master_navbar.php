@@ -7,12 +7,21 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="index.php">Home<span class="sr-only">(current)</span></a>
         </li>
+        <?php
+        if($_SESSION['Role'] == "Manager")
+        {
+          echo '<li class="nav-item active"><a class="nav-link" href="index.php">Management<span class="sr-only">(current)</span></a></li>';
+        }
+        else  {
+          echo '<li class="nav-item active"><a class="nav-link" href="index.php">Stats<span class="sr-only">(current)</span></a></li>';
+        }
+        ?>
       </ul>
       <ul class="navbar-nav my-2 my-lg-0">
         <li class="nav-item">
-          <a class="nav-link" href="profile.php">Profile</a>
+          <a class="nav-link" href="profile.php"><?php echo $_SESSION['LoginID'] ?></a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="killsession.php">Logout</a>
