@@ -12,6 +12,7 @@
   $LoginRowID = 0;
   $LoginRole = "";
   $LoginName = "";
+  $MainErr = "";
 
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -56,7 +57,12 @@
       // set the resulting array to associative
       $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
       foreach (new RecursiveArrayIterator($stmt->fetchAll()) as $k=>$v) {
-          $LoginSuccessTF = true;
+          $ApprovedTF = $v[ApprovedTF];
+          if($ApprovedTF == '1') //Check to see if the user is approved
+          {
+            $LoginSuccessTF = true;
+            //echo "LoginSuccessful?: ".$LoginSuccessTF;
+          }
           $LoginRowID = $v[ID];
           $Email = $v[Email];
           $LoginName = $v[Name];
@@ -90,6 +96,12 @@
         //header("Location: sessionPrint.php");
       }
       else {
+        if($ApprovedTF == '0'){
+          $MainErr = "Your Account has not been approved Yet";
+        }
+        else{
+          $MainErr = "Your Login or Password is Incorrect. Try Again.";
+        }
         session_unset();
         session_destroy();
       }
@@ -113,12 +125,15 @@
     <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
       <!-- <?php echo "<h1>".$_REQUEST[msg]."</h1>" ?> -->
       <h2 style="text-align: center;">Login</h2>
+      <?php echo "<h5 style='color:red; text-align: center;'>".$MainErr."</h5>" ?>
       <br />
       <label class="sr-only">LoginID</label>
       <input class="form-control" name="LoginID" placeholder="Login ID" value="<?php echo $LoginID ?>" required autofocus autocomplete="off" />
+      <?php echo "<span style='color:red;'>".$LoginErr."</span>" ?>
       <br />
       <label class="sr-only">Password</label>
       <input class="form-control" name="LoginPassword" type="password" placeholder="Password" value="<?php echo $LoginPassword ?>" required autofocus autocomplete="off" />
+      <?php echo "<span style='color:red;'>".$LoginPasswordErr."</span>" ?>
       <br />
       <button class="btn btn-lg btn-primary btn-block" type="submit" name="submit" value="Submit">Login</button>
       <br />
