@@ -58,9 +58,14 @@
       foreach (new RecursiveArrayIterator($stmt->fetchAll()) as $k=>$v) {
           $LoginSuccessTF = true;
           $LoginRowID = $v[ID];
+          $Email = $v[Email];
           $LoginName = $v[Name];
           $LoginRole = $v[Role];
-          //ADD THE REST OF THEM HERE
+          $Password = $v[Password];
+          $Birthday = $v[Birthday];
+          $Address = $v[Address];
+          $PhoneNumber = $v[PhoneNumber];
+          $PlayPos = $v[PlayPos];
           //print_r($v);
       }
 
@@ -72,6 +77,13 @@
         $_SESSION["LoginRowID"] = $LoginRowID;
         $_SESSION["LoginName"] = $LoginName;
         $_SESSION["Role"]= $LoginRole; //This should come from the database
+        $_SESSION["Email"] = $Email;
+        $_SESSION["Password"] = $Password;
+        $_SESSION["Birthday"] = $Birthday;
+        $_SESSION["Address"] = $Address;
+        $_SESSION["PhoneNumber"] = $PhoneNumber;
+        $_SESSION["PlayPos"] = $PlayPos;
+
         //ADD THE REST OF THEM HERE
         //echo "Loggin In...";
         header("Location: index.php");

@@ -12,10 +12,10 @@
         <?php
         if($_SESSION['Role'] == "Manager")
         {
-          echo '<li class="nav-item active"><a class="nav-link" href="index.php">Management<span class="sr-only">(current)</span></a></li>';
+          echo '<li class="nav-item active"><a class="nav-link" href="management.php">Management<span class="sr-only">(current)</span></a></li>';
         }
         else  {
-          echo '<li class="nav-item active"><a class="nav-link" href="index.php">Stats<span class="sr-only">(current)</span></a></li>';
+          echo '<li class="nav-item active"><a class="nav-link" href="stats.php">Stats<span class="sr-only">(current)</span></a></li>';
         }
         ?>
       </ul>

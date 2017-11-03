@@ -1,6 +1,6 @@
 <?php
-  // error_reporting(E_ALL);
-  // ini_set('display_errors', 'on');
+  error_reporting(E_ALL);
+  ini_set('display_errors', 'on');
   require 'authLibraries.php';
   redirectIfNotLoggedIn();
 ?>
@@ -13,41 +13,39 @@
   <?php require "master_navbar.php" ?>
   <div class="jumbotron">
     <div class="container">
-      <h1 class="display-3">Home</h1>
+      <h1 class="display-3"><?php echo $_SESSION['LoginID'] ?>'s Stats</h1>
     </div>
   </div>
   <div class="container">
-    <h2>Welcome, <?php echo $_SESSION['LoginID'] ?></h2>
-  </div>
-  <div class="container">
     <?php
-    //
-    // class TableRows extends RecursiveIteratorIterator
-    // {
-    //     public function __construct($it)
-    //     {
-    //         parent::__construct($it, self::LEAVES_ONLY);
-    //     }
-    //
-    //     public function current()
-    //     {
-    //         return "<td style='width:150px;border:1px solid black;'>" . parent::current(). "</td>";
-    //     }
-    //
-    //     public function beginChildren()
-    //     {
-    //         echo "<tr>";
-    //     }
-    //
-    //     public function endChildren()
-    //     {
-    //         echo "</tr>" . "\n";
-    //     }
-    // }
+
+    class TableRows extends RecursiveIteratorIterator
+    {
+        public function __construct($it)
+        {
+            parent::__construct($it, self::LEAVES_ONLY);
+        }
+
+        public function current()
+        {
+            return "<td style='width:150px;border:1px solid black;'>" . parent::current(). "</td>";
+        }
+
+        public function beginChildren()
+        {
+            echo "<tr>";
+        }
+
+        public function endChildren()
+        {
+            echo "</tr>" . "\n";
+        }
+    }
     //
     // echo "LoginID: ".$_SESSION["LoginID"];
     // $LoginIDLocal = $_SESSION["LoginID"];
-    // $LoggedInID = $_SESSION["LoginRowID"];
+//    $LoggedInID = $_SESSION["LoginRowID"];
+    $LoginID = $_SESSION["LoginID"];
     // try {
     //     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     //     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -61,14 +59,37 @@
     // } catch (PDOException $e) {
     //     echo "Error: " . $e->getMessage();
     // }
+    //************************************************************
+    // StatsView View
+    //************************************************************
+    echo "<h2>Training</h2></h2>";
+    echo "<table class='table table-striped'>";
+    echo "<tr><th>ID</th><th>Name</th><th>Birthday</th><th>Email</th><th>Year</th><th>Total Points</th><th>ASPG</th><th>Manager</th><th>Training</th></tr>";
 
+    try {
+        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $stmt = $conn->prepare("SELECT * FROM PlayerData WHERE LoginID=:LoggedInID");
+        $stmt->bindParam(':LoggedInID', $LoginID);
+        $stmt->execute();
+
+        // set the resulting array to associative
+        $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        foreach (new TableRows(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+            echo $v;
+        }
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    }
+    $conn = null;
+    echo "</table>";
 
     //************************************************************
     // TrainingView View
     //************************************************************
     // echo "<h2>Training</h2></h2>";
     // echo "<table class='table table-striped'>";
-    // echo "<tr><th>Player Name</th><th>Training Name</th><th>Manager Name</th></tr>";
+    // echo "<tr><th>Player</th><th>Training</th><th>Manager</th></tr>";
     //
     // try {
     //     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
