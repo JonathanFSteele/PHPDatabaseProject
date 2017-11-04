@@ -31,6 +31,19 @@
           if(parent::key() == 'ID'){
             $this->id = parent::current();
           }
+          if(parent::key() == 'Password')
+          {
+            return "<td style='width:150px;border:1px solid black;'><form method='post' action='resetPlayerPassword.php'><table>
+            <tr>
+              <td>
+                <input style='width: 90px;' name='newPassword' type='password' maxlength='8' />
+              </td>
+              <td>
+                <button type='submit' class='btn-warning' name='subBtn' value='".  $this->id ."'>Reset</button>
+              </td>
+            </tr>
+            </table></form></td>";
+          }
           if(parent::key() == 'ApprovedTF')
           {
             if(parent::current() == '0')
@@ -79,9 +92,10 @@
     //************************************************************
     // Player Table
     //************************************************************
-    echo "<h2>Players</h2></h2>";
+    echo "<h2>Players</h2>";
+    echo "<h5 style='color: green;'>".$_GET["msg"]."</h5>";
     echo "<table class='table table-striped'>";
-    echo "<tr><th>LoginID</th><th>Name</th><th>Birthday</th><th>Email</th><th>Birthday</th><th>Address</th><th>Email</th><th>PhoneNumber</th><th>PlayPos</th><th>ApprovedTF</th></tr>";
+    echo "<tr><th>ID</th><th>LoginID</th><th>Name</th><th>Password</th><th>Birthday</th><th>Address</th><th>Email</th><th>PhoneNumber</th><th>PlayPos</th><th>ApprovedTF</th></tr>";
 
     try {
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
@@ -105,108 +119,6 @@
     }
     $conn = null;
     echo "</table>";
-
-
-
-    //************************************************************
-    // StatsView View
-    //************************************************************
-    // echo "<h2>Training</h2></h2>";
-    // echo "<table class='table table-striped'>";
-    // echo "<tr><th>ID</th><th>Name</th><th>Birthday</th><th>Email</th><th>Year</th><th>Total Points</th><th>ASPG</th><th>Manager</th><th>Training</th></tr>";
-    //
-    // try {
-    //     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    //     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    //     $stmt = $conn->prepare("SELECT * FROM PlayerData WHERE LoginID=:LoggedInID");
-    //     $stmt->bindParam(':LoggedInID', $LoginID);
-    //     $stmt->execute();
-    //
-    //     // set the resulting array to associative
-    //     $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-    //     foreach (new TableRows(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-    //         echo $v;
-    //     }
-    // } catch (PDOException $e) {
-    //     echo "Error: " . $e->getMessage();
-    // }
-    // $conn = null;
-    // echo "</table>";
-
-    //************************************************************
-    // TrainingView View
-    //************************************************************
-    // echo "<h2>Training</h2></h2>";
-    // echo "<table class='table table-striped'>";
-    // echo "<tr><th>Player</th><th>Training</th><th>Manager</th></tr>";
-    //
-    // try {
-    //     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    //     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    //     $stmt = $conn->prepare("SELECT PlayerName, TrainingName, ManagerName FROM TrainingView WHERE PlayerID=:LoggedInID");
-    //     $stmt->bindParam(':LoggedInID', $LoggedInID);
-    //     $stmt->execute();
-    //
-    //     // set the resulting array to associative
-    //     $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-    //     foreach (new TableRows(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-    //         echo $v;
-    //     }
-    // } catch (PDOException $e) {
-    //     echo "Error: " . $e->getMessage();
-    // }
-    // $conn = null;
-    // echo "</table>";
-    // echo "Host:", $_SERVER['HTTP_HOST'], "<br />";
-    // echo "Query string:", $_SERVER['QUERY_STRING'], "<br />";
-    // echo "Requst test= ", $_REQUEST['test'], "<br />";
-
-    // function myTest()
-    // {
-    //     global $name;
-    //     echo "inside myTest() function. $name<br />";
-    //     echo "testing ","and again.<br />";
-    //     echo "testing " . $name . " in an sentence.<br />";
-    //     global $x;
-    //     var_dump($x);
-    // }
-    //
-    // function arrayTests()
-    // {
-    //     echo "-------- arrayTests function ---------<br /><br />";
-    //     $cars = array("Volvo","BMW", "Toyota");
-    //     var_dump($cars);
-    //     echo "<br />";
-    //     for ($x = 0; $x <count($cars); $x++) {
-    //         echo "I like $cars[$x] <br />";
-    //     }
-    //     foreach ($cars as $car) {
-    //         echo "car: $car <br />";
-    //     }
-    //     echo "<br /><br />";
-    // }
-    //
-    // //myTest();
-    // arrayTests();
-    //
-    // class Car
-    // {
-    //     public function Car()
-    //     {
-    //         $this->model = "VW";
-    //         $this->color = "blue";
-    //     }
-    // }
-    // function testCar()
-    // {
-    //     $herbie = new Car();
-    //     var_dump($herbie);
-    //     echo "<br />";
-    //     echo "car color: $herbie->color<br />";
-    // }
-    //
-    // testCar();
-
     ?>
   </div>
   <footer class="footer" style="background-color: #e9ecef;">

@@ -225,7 +225,7 @@
       ?>
       <div class="form-group">
         <label for="exampleInputPassword1">Password</label>
-        <input type="password" name="Password" class="form-control" id="exampleInputPassword1">
+        <input type="password" name="Password" class="form-control" maxlength="8" id="exampleInputPassword1">
         <small id="passwordHelp" class="form-text text-muted">Leave Password Blank, if you want it to stay the same. Fill it in to change your password.</small>
       </div>
       <button type="submit" class="btn btn-primary">Change Stats</button>
