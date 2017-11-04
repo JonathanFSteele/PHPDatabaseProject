@@ -14,6 +14,7 @@
         {
           echo '<li class="nav-item active"><a class="nav-link" href="playerManagement.php">Management<span class="sr-only">(current)</span></a></li>';
           echo '<li class="nav-item active"><a class="nav-link" href="training.php">Training<span class="sr-only">(current)</span></a></li>';
+          echo '<li class="nav-item active"><a class="nav-link" href="assignTraining.php">Assign Training<span class="sr-only">(current)</span></a></li>';
           echo '<li class="nav-item active"><a class="nav-link" href="games.php">Games<span class="sr-only">(current)</span></a></li>';
           echo '<li class="nav-item active"><a class="nav-link" href="certificate.php">Certificate<span class="sr-only">(current)</span></a></li>';
         }

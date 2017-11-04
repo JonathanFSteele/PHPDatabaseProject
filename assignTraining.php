@@ -2,10 +2,11 @@
   // error_reporting(E_ALL);
   // ini_set('display_errors', 'on');
   require 'authLibraries.php';
+  require 'getDropdowns.php';
   redirectIfNotInRole("Manager");
 ?>
 <head>
-  <title>Training</title>
+  <title>Assign Training</title>
   <?php require "master_head.php"  ?>
   <?php require 'MySqlInfo.php' ?>
 </head>
@@ -13,7 +14,7 @@
   <?php require "master_navbar.php" ?>
   <div class="jumbotron">
     <div class="container">
-      <h1 class="display-3">Training</h1>
+      <h1 class="display-3">Assign Training</h1>
     </div>
   </div>
   <div class="container">
@@ -28,12 +29,15 @@
 
         public function current()
         {
-          if(parent::key() == 'ID'){
+          if(parent::key() == 'AssignedTrainingID'){
             $this->id = parent::current();
             return "";
           }
-          if(parent::key() == 'Action') {
-            return "<td style='border:1px solid black;'><form method='get' action='trainingEdit.php'><button class='btn-info' type='submit' name='Update' value='".$this->id."'>Edit</button></form>&nbsp;<form method='post' action='trainingDelete.php'><button class='btn-danger' type='submit' name='Delete' value='".$this->id."'>Delete</button></form></td>";
+          if(parent::key() == 'TrainingID'){
+            return "";
+          }
+          if(parent::key() == 'Actions') {
+            return "<td style='border:1px solid black;'><form method='post' action='assignTrainingDelete.php'><button class='btn-danger' type='submit' name='Delete' value='".$this->id."'>Delete</button></form></td>";
           }
           else {
             return "<td style='border:1px solid black;'>" . parent::current(). "</td>";
@@ -57,16 +61,17 @@
     //************************************************************
     // Training View
     //************************************************************
-    echo "<h2>Training</h2></h2>";
+    echo "<h2>Assign Training</h2></h2>";
     echo "<h5 style='color: red;'>".$_GET['msg']."</h5>";
-    echo "<form method='get' action='trainingEdit.php'><button class='btn-primary' type='submit' name='Update' value='0'>Add Training</button></form>";
+    echo "<form method='post' action='assignTrainingAdd.php'>".getPlayerDropdown().getTrainingDropdown().
+    "<button class='btn-primary' type='submit'>Add Training</button></form>";
     echo "<table class='table table-striped'>";
-    echo "<tr><th>Training Name</th><th>Instructions</th><th>Time Period In Hour</th><th></th></tr>";
+    echo "<tr><th>ID</th><th>Login</th><th>Name</th><th>Assigned By</th><th>Training Name</th><th>Instruction</th><th></th></tr>";
 
     try {
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $stmt = $conn->prepare("SELECT * FROM TrainingAdmin");
+        $stmt = $conn->prepare("SELECT * FROM PlayerTraining");
         //$stmt->bindParam(':LoggedInID', $LoginID);
         $stmt->execute();
 
