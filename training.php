@@ -28,7 +28,16 @@
 
         public function current()
         {
-            return "<td style='width:150px;border:1px solid black;'>" . parent::current(). "</td>";
+          if(parent::key() == 'ID'){
+            $this->id = parent::current();
+            return "";
+          }
+          if(parent::key() == 'Action') {
+            return "<td style='border:1px solid black;'><form method='get' action='trainingEdit.php'><button class='btn-info' type='submit' name='Update' value='".$this->id."'>Edit</button></form>&nbsp;<button class='btn-danger'>Delete</button></td>";
+          }
+          else {
+            return "<td style='border:1px solid black;'>" . parent::current(). "</td>";
+          }
         }
 
         public function beginChildren()
@@ -41,36 +50,22 @@
             echo "</tr>" . "\n";
         }
     }
-    //
-    // echo "LoginID: ".$_SESSION["LoginID"];
-    // $LoginIDLocal = $_SESSION["LoginID"];
-//    $LoggedInID = $_SESSION["LoginRowID"];
+
     $LoginID = $_SESSION["LoginID"];
-    // try {
-    //     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    //     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    //     $LoggedInUser = $conn->prepare("SELECT ID FROM Player WHERE LoginID=:LoginID");
-    //     $LoggedInUser->bindParam(':LoginID', $LoginIDLocal);
-    //     $LoggedInUser->execute();
-    //
-    //     // set the resulting array to associative
-    //     $result = $LoggedInUser->setFetchMode(PDO::FETCH_ASSOC);
-    //     $LoggedInID = (int)$result;
-    // } catch (PDOException $e) {
-    //     echo "Error: " . $e->getMessage();
-    // }
+
 
     //************************************************************
     // Training View
     //************************************************************
     echo "<h2>Training</h2></h2>";
+    echo "<form method='get' action='trainingEdit.php'><button class='btn-primary' type='submit' name='Update' value='0'>Add Training</button></form>";
     echo "<table class='table table-striped'>";
-    echo "<tr><th>ID</th><th>Name</th><th>Birthday</th><th>Email</th><th>Year</th><th>Total Points</th><th>ASPG</th><th>Manager</th><th>Training</th></tr>";
+    echo "<tr><th>Training Name</th><th>Instructions</th><th>Time Period In Hour</th><th></th></tr>";
 
     try {
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $stmt = $conn->prepare("SELECT * FROM PlayerData");
+        $stmt = $conn->prepare("SELECT * FROM TrainingAdmin");
         //$stmt->bindParam(':LoggedInID', $LoginID);
         $stmt->execute();
 
@@ -85,119 +80,7 @@
     $conn = null;
     echo "</table>";
 
-    //************************************************************
-    // TrainingView View
-    //************************************************************
-    // echo "<h2>Training</h2></h2>";
-    // echo "<table class='table table-striped'>";
-    // echo "<tr><th>Player</th><th>Training</th><th>Manager</th></tr>";
-    //
-    // try {
-    //     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    //     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    //     $stmt = $conn->prepare("SELECT PlayerName, TrainingName, ManagerName FROM TrainingView WHERE PlayerID=:LoggedInID");
-    //     $stmt->bindParam(':LoggedInID', $LoggedInID);
-    //     $stmt->execute();
-    //
-    //     // set the resulting array to associative
-    //     $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-    //     foreach (new TableRows(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-    //         echo $v;
-    //     }
-    // } catch (PDOException $e) {
-    //     echo "Error: " . $e->getMessage();
-    // }
-    // $conn = null;
-    // echo "</table>";
-    // echo "Host:", $_SERVER['HTTP_HOST'], "<br />";
-    // echo "Query string:", $_SERVER['QUERY_STRING'], "<br />";
-    // echo "Requst test= ", $_REQUEST['test'], "<br />";
-
-    // function myTest()
-    // {
-    //     global $name;
-    //     echo "inside myTest() function. $name<br />";
-    //     echo "testing ","and again.<br />";
-    //     echo "testing " . $name . " in an sentence.<br />";
-    //     global $x;
-    //     var_dump($x);
-    // }
-    //
-    // function arrayTests()
-    // {
-    //     echo "-------- arrayTests function ---------<br /><br />";
-    //     $cars = array("Volvo","BMW", "Toyota");
-    //     var_dump($cars);
-    //     echo "<br />";
-    //     for ($x = 0; $x <count($cars); $x++) {
-    //         echo "I like $cars[$x] <br />";
-    //     }
-    //     foreach ($cars as $car) {
-    //         echo "car: $car <br />";
-    //     }
-    //     echo "<br /><br />";
-    // }
-    //
-    // //myTest();
-    // arrayTests();
-    //
-    // class Car
-    // {
-    //     public function Car()
-    //     {
-    //         $this->model = "VW";
-    //         $this->color = "blue";
-    //     }
-    // }
-    // function testCar()
-    // {
-    //     $herbie = new Car();
-    //     var_dump($herbie);
-    //     echo "<br />";
-    //     echo "car color: $herbie->color<br />";
-    // }
-    //
-    // testCar();
-
     ?>
-
-    <!-- Trigger the modal with a button -->
-    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
-
-    <!-- Modal -->
-    <div id="myModal" class="modal fade" role="dialog">
-      <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 style="text-align: left;">Add Training</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="form-group">
-                <!-- TODO: Get this to be two dropdowns generating all Players and all Trainings. -->
-                <label for="exampleInputEmail1">Player Name</label>
-                <input type="text" name="PlayerName" class="form-control" aria-describedby="PlayerHelp" value="<?php echo $PlayerName ?>">
-                <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-              </div>
-              <div class="form-group">
-                <label for="exampleInputEmail1">Training</label>
-                <input type="text" name="Training" class="form-control" aria-describedby="TrainingHelp" value="<?php echo $Training ?>">
-                <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-              </div>
-
-              <button type="submit" class="btn btn-primary">Add Training</button>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-
-      </div>
-    </div>
 
   </div>
   <footer class="footer" style="background-color: #e9ecef;">
