@@ -16,8 +16,40 @@
       <h1 class="display-3">Management</h1>
     </div>
   </div>
-  <div class="container">
+  <div style="margin-left: 10px;">
     <?php
+
+    function getStatTable($PlayerID)
+    {
+      global $username, $password, $servername, $dbname;
+      //echo "Calling getStatTable: ".$PlayerID;
+      $conn1 = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+      $conn1->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      $SelectStmt = $conn1->prepare("SELECT * FROM Stats WHERE PlayerID=:PlayerID");
+      $SelectStmt->bindParam(':PlayerID', $PlayerID);
+      $SelectStmt->execute();
+      $rows = "";
+      $count = 0;
+      $result = $SelectStmt->setFetchMode(PDO::FETCH_ASSOC);
+      foreach (new RecursiveArrayIterator($SelectStmt->fetchAll()) as $k=>$v) {
+          $Year = $v[Year];
+          $TotalPoints = $v[TotalPoints];
+          $ASPG = $v[ASPG];
+          $rows .= "<tr><td>".$Year."</td><td>".$TotalPoints."</td><td>".$ASPG."</td></tr>";
+          $count += 1;
+      }
+      $conn1 = null;
+      if($count > 0)
+      {
+        return "<td style='border:1px solid black;'><table>
+                  <tr><th>Year</th><th>Total Points</th><th>ASPG</th></tr>
+                  ".$rows."
+                </table></td>";
+      }
+      else {
+        return "<td style='border:1px solid black;''></td>";
+      }
+    }
 
     class TableRows extends RecursiveIteratorIterator
     {
@@ -33,29 +65,24 @@
           }
           if(parent::key() == 'Password')
           {
-            return "<td style='width:150px;border:1px solid black;'><form method='post' action='resetPlayerPassword.php'><table>
-            <tr>
-              <td>
-                <input style='width: 90px;' name='newPassword' type='password' maxlength='8' />
-              </td>
-              <td>
-                <button type='submit' class='btn-warning' name='subBtn' value='".  $this->id ."'>Reset</button>
-              </td>
-            </tr>
-            </table></form></td>";
+            return "<td style='border:1px solid black;'><form method='post' action='resetPlayerPassword.php'><input style='width: 90px;' name='newPassword' type='password' maxlength='8' /><button type='submit' class='btn-warning' name='subBtn' value='".  $this->id ."'>Reset</button></form></td>";
+          }
+          if(parent::key() == 'Stats')
+          {
+            return getStatTable($this->id);
           }
           if(parent::key() == 'ApprovedTF')
           {
             if(parent::current() == '0')
             {
-              return "<td style='width:150px;border:1px solid black;'><form method='post' action='activatePlayer.php'><button type='submit' class='btn-primary' name='subBtn' value='".  $this->id ."'>Approve</button></form></td>";
+              return "<td style='border:1px solid black;'><form method='post' action='activatePlayer.php'><button type='submit' class='btn-primary' name='subBtn' value='".  $this->id ."'>Approve</button></form></td>";
             }
             else {
-              return "<td style='width:150px;border:1px solid black;'><b style='color: green'>Approved</b></td>";
+              return "<td style='border:1px solid black;'><b style='color: green'>Approved</b></td>";
             }
           }
           else {
-            return "<td style='width:150px;border:1px solid black;'>" . parent::current() . "</td>";
+            return "<td style='border:1px solid black;'>" . parent::current() . "</td>";
           }
 
         }
@@ -95,24 +122,18 @@
     echo "<h2>Players</h2>";
     echo "<h5 style='color: green;'>".$_GET["msg"]."</h5>";
     echo "<table class='table table-striped'>";
-    echo "<tr><th>ID</th><th>LoginID</th><th>Name</th><th>Password</th><th>Birthday</th><th>Address</th><th>Email</th><th>PhoneNumber</th><th>PlayPos</th><th>ApprovedTF</th></tr>";
+    echo "<tr><th>ID</th><th>Login</th><th>Name</th><th>Password</th><th>Email</th><th>Birthday</th><th>Address</th><th>PhoneNumber</th><th>Position</th><th>Approved TF</th><th>Stats</th></tr>";
 
     try {
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $stmt = $conn->prepare("SELECT * FROM Player");
+        $stmt = $conn->prepare("SELECT * FROM PlayerView");
         $stmt->execute();
 
         // set the resulting array to associative
         $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
         foreach (new TableRows(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-          if($k == ApprovedTF)
-          {
             echo $v;
-          }
-          else {
-            echo $v;
-          }
         }
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
