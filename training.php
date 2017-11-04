@@ -33,7 +33,7 @@
             return "";
           }
           if(parent::key() == 'Action') {
-            return "<td style='border:1px solid black;'><form method='get' action='trainingEdit.php'><button class='btn-info' type='submit' name='Update' value='".$this->id."'>Edit</button></form>&nbsp;<button class='btn-danger'>Delete</button></td>";
+            return "<td style='border:1px solid black;'><form method='get' action='trainingEdit.php'><button class='btn-info' type='submit' name='Update' value='".$this->id."'>Edit</button></form>&nbsp;<form method='post' action='trainingDelete.php'><button class='btn-danger' type='submit' name='Delete' value='".$this->id."'>Delete</button></form></td>";
           }
           else {
             return "<td style='border:1px solid black;'>" . parent::current(). "</td>";
