@@ -28,7 +28,14 @@
 
         public function current()
         {
+          // if($v == 'ApprovedTF')
+          // {
+          //   return "<td style='width:150px;border:1px solid black;'><input type='checkbox' value='" . parent::current(). "'/></td>";
+          // }
+          // else {
             return "<td style='width:150px;border:1px solid black;'>" . parent::current(). "</td>";
+          // }
+
         }
 
         public function beginChildren()
@@ -65,7 +72,7 @@
     //************************************************************
     echo "<h2>Players</h2></h2>";
     echo "<table class='table table-striped'>";
-    echo "<tr><th>ID</th><th>LoginID</th><th>Name</th><th>Password</th><th>Birthday</th><th>Address</th><th>Email</th><th>PhoneNumber</th><th>PlayPos</th></tr>";
+    echo "<tr><th>LoginID</th><th>Name</th><th>Birthday</th><th>Email</th><th>Birthday</th><th>Address</th><th>Email</th><th>PhoneNumber</th><th>PlayPos</th><th>ApprovedTF</th></tr>";
 
     try {
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
@@ -76,7 +83,13 @@
         // set the resulting array to associative
         $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
         foreach (new TableRows(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+          if($k == ApprovedTF)
+          {
             echo $v;
+          }
+          else {
+            echo $v;
+          }
         }
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
