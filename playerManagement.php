@@ -28,11 +28,14 @@
 
         public function current()
         {
+          if(parent::key() == 'ID'){
+            $this->id = parent::current();
+          }
           if(parent::key() == 'ApprovedTF')
           {
-            if(parent::current() == '1')
+            if(parent::current() == '0')
             {
-              return "<td style='width:150px;border:1px solid black;'><button class='btn-primary'>Approve</button></td>";
+              return "<td style='width:150px;border:1px solid black;'><form method='post' action='activatePlayer.php'><button type='submit' class='btn-primary' name='subBtn' value='".  $this->id ."'>Approve</button></form></td>";
             }
             else {
               return "<td style='width:150px;border:1px solid black;'><b style='color: green'>Approved</b></td>";
