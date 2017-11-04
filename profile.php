@@ -165,63 +165,67 @@
         <input type="text" name="PhoneNumber" class="form-control" aria-describedby="emailHelp" value="<?php echo $_SESSION['PhoneNumber'] ?>">
         <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
       </div>
+      <?php
+      if($_SESSION['Role'] == 'Player' )
+      {
+          echo '<div class="form-group">';
+          echo '<label for="exampleInputEmail1">Play Pos</label>';
+          echo '<select class="form-control" name="PlayPos" id="sel1" value="<?php echo $_SESSION[`PlayPos`] ?>">';
+
+          if($_SESSION['PlayPos'] == null)
+          {
+            echo "<option selected value=''>None</option>";
+          }
+          else {
+            echo "<option value=''>None</option>";
+          }
+
+          if($_SESSION['PlayPos'] == "point guard")
+          {
+            echo "<option selected>point guard</option>";
+          }
+          else {
+            echo "<option>point guard</option>";
+          }
+
+          if($_SESSION['PlayPos'] == "shooting guard")
+          {
+            echo "<option selected>shooting guard</option>";
+          }
+          else {
+            echo "<option>shooting guard</option>";
+          }
+
+          if($_SESSION['PlayPos'] == "small forward")
+          {
+            echo "<option selected>small forward</option>";
+          }
+          else {
+            echo "<option>small forward</option>";
+          }
+
+          if($_SESSION['PlayPos'] == "power forward")
+          {
+            echo "<option selected>power forward</option>";
+          }
+          else {
+            echo "<option>power forward</option>";
+          }
+
+          if($_SESSION['PlayPos'] == "center")
+          {
+            echo "<option selected>center</option>";
+          }
+          else {
+            echo "<option>center</option>";
+          }
+          echo "</select>";
+          echo "</div>";
+        }
+      ?>
       <div class="form-group">
-        <label for="exampleInputEmail1">Play Pos</label>
-        <select class="form-control" name="PlayPos" id="sel1" value="<?php echo $_SESSION['PlayPos'] ?>">
-          <?php
-            if($_SESSION['PlayPos'] == null)
-            {
-              echo "<option selected value=''>None</option>";
-            }
-            else {
-              echo "<option value=''>None</option>";
-            }
-
-            if($_SESSION['PlayPos'] == "point guard")
-            {
-              echo "<option selected>point guard</option>";
-            }
-            else {
-              echo "<option>point guard</option>";
-            }
-
-            if($_SESSION['PlayPos'] == "shooting guard")
-            {
-              echo "<option selected>shooting guard</option>";
-            }
-            else {
-              echo "<option>shooting guard</option>";
-            }
-
-            if($_SESSION['PlayPos'] == "small forward")
-            {
-              echo "<option selected>small forward</option>";
-            }
-            else {
-              echo "<option>small forward</option>";
-            }
-
-            if($_SESSION['PlayPos'] == "power forward")
-            {
-              echo "<option selected>power forward</option>";
-            }
-            else {
-              echo "<option>power forward</option>";
-            }
-
-            if($_SESSION['PlayPos'] == "center")
-            {
-              echo "<option selected>center</option>";
-            }
-            else {
-              echo "<option>center</option>";
-            }
-          ?>
-        </select>
-        <div class="form-group">
-          <label for="exampleInputPassword1">Password</label>
-          <input type="password" name="Password" class="form-control" id="exampleInputPassword1">
-        </div>
+        <label for="exampleInputPassword1">Password</label>
+        <input type="password" name="Password" class="form-control" id="exampleInputPassword1">
         <small id="passwordHelp" class="form-text text-muted">Leave Password Blank, if you want it to stay the same. Fill it in to change your password.</small>
       </div>
       <button type="submit" class="btn btn-primary">Change Stats</button>
