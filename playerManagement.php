@@ -28,13 +28,19 @@
 
         public function current()
         {
-          // if($v == 'ApprovedTF')
-          // {
-          //   return "<td style='width:150px;border:1px solid black;'><input type='checkbox' value='" . parent::current(). "'/></td>";
-          // }
-          // else {
-            return "<td style='width:150px;border:1px solid black;'>" . parent::current(). "</td>";
-          // }
+          if(parent::key() == 'ApprovedTF')
+          {
+            if(parent::current() == '1')
+            {
+              return "<td style='width:150px;border:1px solid black;'><button class='btn-primary'>Approve</button></td>";
+            }
+            else {
+              return "<td style='width:150px;border:1px solid black;'><b style='color: green'>Approved</b></td>";
+            }
+          }
+          else {
+            return "<td style='width:150px;border:1px solid black;'>" . parent::current() . "</td>";
+          }
 
         }
 
