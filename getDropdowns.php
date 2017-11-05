@@ -54,5 +54,33 @@ function getTrainingDropdown()
     }
 }
 
+function getGamesDropdown()
+{
+  global $username, $password, $servername, $dbname;
+    try {
+        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $stmt = $conn->prepare("SELECT GameID ,PlayingVenue, Date FROM Game ORDER BY Date DESC");
+        $stmt->execute();
+
+        $rows = "";
+        // set the resulting array to associative
+        $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        foreach (new RecursiveArrayIterator($stmt->fetchAll()) as $k=>$v) {
+            $GameID=$v[GameID];
+            $PlayingVenue=$v[PlayingVenue];
+            $rows .= "<option value='".$GameID."'>".$PlayingVenue."</td></option>";
+            //print_r($v);
+        }
+        return "<select name='GameID'>
+               <option value='-1'>Select Game</option>
+               ".$rows."
+             </select>";
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    }
+}
+
+// echo getGamesDropdown();
 // echo getPlayerDropdown();
 // echo getTrainingDropdown();
