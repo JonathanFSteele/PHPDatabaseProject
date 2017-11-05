@@ -31,8 +31,19 @@
             if (parent::key() == 'CertificateID') {
                 $this->id = parent::current();
             }
+            if (parent::key() == 'Action') {
+                return "<td style='border:1px solid black;'><form method='get' action='getimage.php'><button class='btn-primary' type='submit' name='id' value='".$this->id."'>Download</button></form>
+
+                <form method='post' action='certificateDelete.php'><button class='btn-danger' type='submit' name='Delete' value='".$this->id."'>Delete</button></form>
+
+                <form action='uploadChange.php' method='post' enctype='multipart/form-data'>
+                  <input type='hidden' name='id' value='".$this->id."'/>
+                  <input type='file' name='file' />
+                  <button type='submit' name='btn-upload'>upload</button>
+                </form></td>";
+            }
             if (parent::key() == 'Preview') {
-                return "<td style='width:150px;border:1px solid black;'><img src='getimage.php?id=".$this->id."' /></td>";
+                return "<td style='width:150px;border:1px solid black;'><img style='height: 100px;' src='getimage.php?id=".$this->id."' /></td>";
             } else {
                 return "<td style='width:150px;border:1px solid black;'>" . parent::current(). "</td>";
             }
@@ -62,12 +73,12 @@
       <button type='submit' name='btn-upload'>upload</button>
     </form>";
     echo "<table class='table table-striped'>";
-    echo "<tr><th>CertificateID</th><th>Preview</th></tr>";
+    echo "<tr><th>CertificateID</th><th>Preview</th><th></th></tr>";
 
     try {
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $stmt = $conn->prepare("SELECT CertificateID, '' AS Preview FROM ManagerCertificate WHERE ManagerID=:LoginRowID");
+        $stmt = $conn->prepare("SELECT CertificateID, '' AS Preview, '' AS Action FROM ManagerCertificate WHERE ManagerID=:LoginRowID");
         $stmt->bindParam(':LoginRowID', $LoginRowID);
         $stmt->execute();
 

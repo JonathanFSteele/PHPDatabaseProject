@@ -16,7 +16,7 @@ if (isset($_GET['id'])) {
       // set the resulting array to associative
       $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
       foreach (new RecursiveArrayIterator($stmt->fetchAll()) as $k=>$v) {
-          $filename = 'test.jpeg';
+          $filename = 'certificate.jpeg';
           $mimetype = 'image/jpeg';
           $filedata = $v['Certificate'];
           header("Content-length: ".strlen($filedata));
