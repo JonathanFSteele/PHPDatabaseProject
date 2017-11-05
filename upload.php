@@ -1,6 +1,6 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 'on');
+  error_reporting(E_ALL);
+  ini_set('display_errors', 'on');
   require 'MySqlInfo.php';
   require 'authLibraries.php';
   redirectIfNotInRole("Manager");
@@ -8,7 +8,7 @@ if(isset($_POST['btn-upload']))
 {
 
  $file = rand(1000,100000)."-".$_FILES['file']['name'];
-    $file_loc = $_FILES['file']['tmp_name'];
+ $file_loc = $_FILES['file']['tmp_name'];
  $file_size = $_FILES['file']['size'];
  $file_type = $_FILES['file']['type'];
  $folder="uploads/";
@@ -25,6 +25,9 @@ if(isset($_POST['btn-upload']))
 
  $LoginID = $_SESSION["LoginID"];
 
+ echo "<br />FileLocation: ".$file_loc;
+ echo "<br />Folder: ".$folder;
+ echo "<br />FinalFile: ".$final_file;
  if(move_uploaded_file($file_loc,$folder.$final_file))
  {
    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
@@ -45,10 +48,10 @@ if(isset($_POST['btn-upload']))
  else
  {
   ?>
-  <script>
+  <!-- <script>
   alert('error while uploading file');
         //window.location.href='uploadtest.php?fail';
-        </script>
+        </script> -->
   <?php
  }
 }

@@ -42,45 +42,21 @@
         }
     }
 
-    $LoginID = $_SESSION["LoginID"];
+    $LoginRowID = $_SESSION["LoginRowID"];
 
-    //************************************************************
-    // ManagerView View
-    //************************************************************
-    echo "<h2>My Info</h2></h2>";
-    echo "<table class='table table-striped'>";
-    echo "<tr><th>LoginID</th><th>Name</th><th>Password</th><th>Birthday</th><th>Address</th><th>Email</th><th>PhoneNumber</th><th>Certificate</th></tr>";
-
-    try {
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $stmt = $conn->prepare("SELECT LoginID, Name, Password, Birthday, Address, Email, PhoneNumber, Certificate FROM ManagerView WHERE LoginID=:LoginID");
-        $stmt->bindParam(':LoginID', $LoginID);
-        $stmt->execute();
-
-        // set the resulting array to associative
-        $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-        foreach (new TableRows(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-            echo $v;
-        }
-    } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
-    }
-    $conn = null;
-    echo "</table>";
 
     //************************************************************
     // ManagerView View
     //************************************************************
     echo "<h2>Other Managers Info</h2></h2>";
     echo "<table class='table table-striped'>";
-    echo "<tr><th>LoginID</th><th>Name</th><th>Password</th><th>Birthday</th><th>Address</th><th>Email</th><th>PhoneNumber</th><th>Certificate</th></tr>";
+    echo "<tr><th>CertificateID</th><th>Preview</th></tr>";
 
     try {
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $stmt = $conn->prepare("SELECT LoginID, Name, Password, Birthday, Address, Email, PhoneNumber, Certificate FROM ManagerView WHERE LoginID NOT IN(SELECT LoginID FROM ManagerView WHERE LoginID=:LoginID)");
-        $stmt->bindParam(':LoginID', $LoginID);
+        $stmt = $conn->prepare("SELECT CertificateID, '' AS Preview FROM ManagerCertificate WHERE ManagerID=:LoginRowID");
+        $stmt->bindParam(':LoginRowID', $LoginRowID);
         $stmt->execute();
 
         // set the resulting array to associative
@@ -115,8 +91,9 @@
      //mysql_query($sql);
     }
     ?>
-    <form action="upload.php" method="post" enctype="multipart/form-data">
-      <input type="file" name="file" />
+    <form action="uploadReceiveTest.php" method="post" enctype="multipart/form-data">
+      <input type="file" name="fileObject" />
+      <br />User: <?php echo $_ENV["USER"];?>
       <button type="submit" name="btn-upload">upload</button>
     </form>
   </div>
