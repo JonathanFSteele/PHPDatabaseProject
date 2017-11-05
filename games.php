@@ -28,7 +28,15 @@
 
         public function current()
         {
-            return "<td style='width:150px;border:1px solid black;'>" . parent::current(). "</td>";
+          if(parent::key() == 'GameID'){
+            $this->id = parent::current();
+          }
+          if(parent::key() == 'Action') {
+            return "<td style='border:1px solid black;'><form method='get' action='gamesEdit.php'><button class='btn-info' type='submit' name='Update' value='".$this->id."'>Edit</button></form></td>";
+          }
+          else {
+            return "<td style='border:1px solid black;'>" . parent::current(). "</td>";
+          }
         }
 
         public function beginChildren()
@@ -41,36 +49,24 @@
             echo "</tr>" . "\n";
         }
     }
-    //
-    // echo "LoginID: ".$_SESSION["LoginID"];
-    // $LoginIDLocal = $_SESSION["LoginID"];
-//    $LoggedInID = $_SESSION["LoginRowID"];
+
     $LoginID = $_SESSION["LoginID"];
-    // try {
-    //     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    //     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    //     $LoggedInUser = $conn->prepare("SELECT ID FROM Player WHERE LoginID=:LoginID");
-    //     $LoggedInUser->bindParam(':LoginID', $LoginIDLocal);
-    //     $LoggedInUser->execute();
-    //
-    //     // set the resulting array to associative
-    //     $result = $LoggedInUser->setFetchMode(PDO::FETCH_ASSOC);
-    //     $LoggedInID = (int)$result;
-    // } catch (PDOException $e) {
-    //     echo "Error: " . $e->getMessage();
-    // }
+
 
     //************************************************************
-    // Game Table
+    // Game View
     //************************************************************
-    echo "<h2>Game Table</h2></h2>";
+    echo "<h2>List of Games</h2></h2>";
+    echo "<h5 style='color: red;'>".$_GET['msg']."</h5>";
+    echo "<form method='get' action='gamesEdit.php'><button class='btn-primary' type='submit' name='Update' value='0'>Add Game</button></form>";
     echo "<table class='table table-striped'>";
-    echo "<tr><th>GameID</th><th>Date</th><th>Result</th><th>PlayingVenue</th><th>OpponentTeam</th></tr>";
+    echo "<tr><th>GameID</th><th>Date</th><th>Playing Venue</th><th>Opponent Team</th><th>Result</th><th></th></tr>";
 
     try {
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $stmt = $conn->prepare("SELECT * FROM Game");
+        $stmt = $conn->prepare("SELECT * FROM GameView");
+        //$stmt->bindParam(':LoggedInID', $LoginID);
         $stmt->execute();
 
         // set the resulting array to associative
@@ -83,78 +79,9 @@
     }
     $conn = null;
     echo "</table>";
-
-    //************************************************************
-    // Play Table
-    //************************************************************
-    echo "<h2>Play Table</h2></h2>";
-    echo "<table class='table table-striped'>";
-    echo "<tr><th>PlayerID</th><th>GameID</th></tr>";
-
-    try {
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $stmt = $conn->prepare("SELECT * FROM Play");
-        $stmt->execute();
-
-        // set the resulting array to associative
-        $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-        foreach (new TableRows(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-            echo $v;
-        }
-    } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
-    }
-    $conn = null;
-    echo "</table>";
-
-    // function myTest()
-    // {
-    //     global $name;
-    //     echo "inside myTest() function. $name<br />";
-    //     echo "testing ","and again.<br />";
-    //     echo "testing " . $name . " in an sentence.<br />";
-    //     global $x;
-    //     var_dump($x);
-    // }
-    //
-    // function arrayTests()
-    // {
-    //     echo "-------- arrayTests function ---------<br /><br />";
-    //     $cars = array("Volvo","BMW", "Toyota");
-    //     var_dump($cars);
-    //     echo "<br />";
-    //     for ($x = 0; $x <count($cars); $x++) {
-    //         echo "I like $cars[$x] <br />";
-    //     }
-    //     foreach ($cars as $car) {
-    //         echo "car: $car <br />";
-    //     }
-    //     echo "<br /><br />";
-    // }
-    //
-    // //myTest();
-    // arrayTests();
-    //
-    // class Car
-    // {
-    //     public function Car()
-    //     {
-    //         $this->model = "VW";
-    //         $this->color = "blue";
-    //     }
-    // }
-    // function testCar()
-    // {
-    //     $herbie = new Car();
-    //     var_dump($herbie);
-    //     echo "<br />";
-    //     echo "car color: $herbie->color<br />";
-    // }
-    //
-    // testCar();
 
     ?>
+
   </div>
   <footer class="footer" style="background-color: #e9ecef;">
     <div class="container">
