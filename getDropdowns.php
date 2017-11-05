@@ -68,8 +68,9 @@ function getGamesDropdown()
         $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
         foreach (new RecursiveArrayIterator($stmt->fetchAll()) as $k=>$v) {
             $GameID=$v[GameID];
+            $Date=$v[Date];
             $PlayingVenue=$v[PlayingVenue];
-            $rows .= "<option value='".$GameID."'>".$PlayingVenue."</td></option>";
+            $rows .= "<option value='".$GameID."'>".$PlayingVenue." | ".$Date."</td></option>";
             //print_r($v);
         }
         return "<select name='GameID'>

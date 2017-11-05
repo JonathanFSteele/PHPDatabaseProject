@@ -14,7 +14,7 @@
   <?php require "master_navbar.php" ?>
   <div class="jumbotron">
     <div class="container">
-      <h1 class="display-3">Assign Games</h1>
+      <h1 class="display-3">Players Assigned To Games</h1>
     </div>
   </div>
   <div class="container">
@@ -31,6 +31,7 @@
         {
           if(parent::key() == 'PlayID'){
             $this->id = parent::current();
+            return "";
           }
           if(parent::key() == 'Action') {
             return "<td style='border:1px solid black;'><form method='post' action='assignGamesDelete.php'><button class='btn-danger' type='submit' name='Delete' value='".$this->id."'>Unassign</button></form></td>";
@@ -62,12 +63,12 @@
     echo "<form method='post' action='assignGamesAdd.php'>".getPlayerDropdown().getGamesDropdown().
     "<button class='btn-primary' type='submit'>Assign Player</button></form>";
     echo "<table class='table table-striped'>";
-    echo "<tr><th>Play ID</th><th>Game ID</th><th>Playing Venue</th><th>Assigned</th><th></th></tr>";
+    echo "<tr><th>Date</th><th>Playing Venue</th><th>Players Assigned </th><th></th></tr>";
 
     try {
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $stmt = $conn->prepare("SELECT * FROM PlayGame");
+        $stmt = $conn->prepare("SELECT PlayID, Date, PlayingVenue, Name, Action FROM PlayGame");
         //$stmt->bindParam(':LoggedInID', $LoginID);
         $stmt->execute();
 

@@ -115,7 +115,14 @@
       </div>
       <div class="form-group">
         <label for="Result">Result</label>
-        <input type="text" name="Result" class="form-control" id="exampleInputEmail1" aria-describedby="ResultHelp" value="<?php echo $Result ?>">
+        <!-- <input type="text" name="Result" class="form-control" id="exampleInputEmail1" aria-describedby="ResultHelp" value="<?php echo $Result ?>"> -->
+        <select name="Result">
+          <?php 
+          if($Result == "Win") echo "<option selected>Win</option>"; else echo "<option>Win</option>";
+          if($Result == "Lose") echo "<option selected>Lose</option>"; else echo "<option>Lose</option>";
+          if($Result == "Tie") echo "<option selected>Tie</option>"; else echo "<option>Tie</option>";
+          ?>
+        </select>
       </div>
       <button type="submit" class="btn btn-primary">Update/Add</button>
     </form>
