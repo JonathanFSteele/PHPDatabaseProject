@@ -91,8 +91,8 @@
      //mysql_query($sql);
     }
     ?>
-    <form action="uploadReceiveTest.php" method="post" enctype="multipart/form-data">
-      <input type="file" name="fileObject" />
+    <form action="upload.php" method="post" enctype="multipart/form-data">
+      <input type="file" name="file" />
       <br />User: <?php echo $_ENV["USER"];?>
       <button type="submit" name="btn-upload">upload</button>
     </form>
