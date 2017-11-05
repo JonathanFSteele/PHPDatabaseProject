@@ -41,36 +41,23 @@
             echo "</tr>" . "\n";
         }
     }
-    //
-    // echo "LoginID: ".$_SESSION["LoginID"];
-    // $LoginIDLocal = $_SESSION["LoginID"];
-//    $LoggedInID = $_SESSION["LoginRowID"];
+
+    $LoggedInID = $_SESSION["LoginRowID"];
     $LoginID = $_SESSION["LoginID"];
-    // try {
-    //     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    //     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    //     $LoggedInUser = $conn->prepare("SELECT ID FROM Player WHERE LoginID=:LoginID");
-    //     $LoggedInUser->bindParam(':LoginID', $LoginIDLocal);
-    //     $LoggedInUser->execute();
-    //
-    //     // set the resulting array to associative
-    //     $result = $LoggedInUser->setFetchMode(PDO::FETCH_ASSOC);
-    //     $LoggedInID = (int)$result;
-    // } catch (PDOException $e) {
-    //     echo "Error: " . $e->getMessage();
-    // }
+
     //************************************************************
-    // StatsView View
+    // Yearly Statistics
     //************************************************************
-    echo "<h2>Training</h2></h2>";
+    echo "<h2>Yearly Stats</h2>";
     echo "<table class='table table-striped'>";
-    echo "<tr><th>ID</th><th>Name</th><th>Birthday</th><th>Email</th><th>Year</th><th>Total Points</th><th>ASPG</th><th>Manager</th><th>Training</th></tr>";
+    echo "<tr><th>YearForStats</th><th>TotalPoints</th><th>ASPG</th></tr>";
 
     try {
+      //echo "LoggedInID: ".$LoggedInID;
         $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $stmt = $conn->prepare("SELECT * FROM PlayerData WHERE LoginID=:LoggedInID");
-        $stmt->bindParam(':LoggedInID', $LoginID);
+        $stmt = $conn->prepare("SELECT YearForStats, TotalPoints, ASPG FROM PlayerData WHERE PlayerID=:LoggedInID");
+        $stmt->bindParam(':LoggedInID', $LoggedInID);
         $stmt->execute();
 
         // set the resulting array to associative
@@ -85,78 +72,56 @@
     echo "</table>";
 
     //************************************************************
-    // TrainingView View
+    // AssignedGames View
     //************************************************************
-    // echo "<h2>Training</h2></h2>";
-    // echo "<table class='table table-striped'>";
-    // echo "<tr><th>Player</th><th>Training</th><th>Manager</th></tr>";
-    //
-    // try {
-    //     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    //     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    //     $stmt = $conn->prepare("SELECT PlayerName, TrainingName, ManagerName FROM TrainingView WHERE PlayerID=:LoggedInID");
-    //     $stmt->bindParam(':LoggedInID', $LoggedInID);
-    //     $stmt->execute();
-    //
-    //     // set the resulting array to associative
-    //     $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-    //     foreach (new TableRows(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
-    //         echo $v;
-    //     }
-    // } catch (PDOException $e) {
-    //     echo "Error: " . $e->getMessage();
-    // }
-    // $conn = null;
-    // echo "</table>";
-    // echo "Host:", $_SERVER['HTTP_HOST'], "<br />";
-    // echo "Query string:", $_SERVER['QUERY_STRING'], "<br />";
-    // echo "Requst test= ", $_REQUEST['test'], "<br />";
+    echo "<h2>Assigned Games</h2>";
+    echo "<table class='table table-striped'>";
+    echo "<tr><th>Date</th><th>Playing Venue</th><th>Opponent Team</th><th>Result</th></tr>";
 
-    // function myTest()
-    // {
-    //     global $name;
-    //     echo "inside myTest() function. $name<br />";
-    //     echo "testing ","and again.<br />";
-    //     echo "testing " . $name . " in an sentence.<br />";
-    //     global $x;
-    //     var_dump($x);
-    // }
-    //
-    // function arrayTests()
-    // {
-    //     echo "-------- arrayTests function ---------<br /><br />";
-    //     $cars = array("Volvo","BMW", "Toyota");
-    //     var_dump($cars);
-    //     echo "<br />";
-    //     for ($x = 0; $x <count($cars); $x++) {
-    //         echo "I like $cars[$x] <br />";
-    //     }
-    //     foreach ($cars as $car) {
-    //         echo "car: $car <br />";
-    //     }
-    //     echo "<br /><br />";
-    // }
-    //
-    // //myTest();
-    // arrayTests();
-    //
-    // class Car
-    // {
-    //     public function Car()
-    //     {
-    //         $this->model = "VW";
-    //         $this->color = "blue";
-    //     }
-    // }
-    // function testCar()
-    // {
-    //     $herbie = new Car();
-    //     var_dump($herbie);
-    //     echo "<br />";
-    //     echo "car color: $herbie->color<br />";
-    // }
-    //
-    // testCar();
+    try {
+      //echo "LoggedInID: ".$LoggedInID;
+        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $stmt = $conn->prepare("SELECT Date, PlayingVenue, OpponentTeam, Result FROM PlayGameView WHERE PlayerID=:LoggedInID");
+        $stmt->bindParam(':LoggedInID', $LoggedInID);
+        $stmt->execute();
+
+        // set the resulting array to associative
+        $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        foreach (new TableRows(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+            echo $v;
+        }
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    }
+    $conn = null;
+    echo "</table>";
+
+    //************************************************************
+    // AssignedTraining View
+    //************************************************************
+    echo "<h2>Assigned Training</h2>";
+    echo "<table class='table table-striped'>";
+    echo "<tr><th>Training</th><th>Instructions</th><th>Assigned By</th></tr>";
+
+    try {
+      //echo "LoggedInID: ".$LoggedInID;
+        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $stmt = $conn->prepare("SELECT TrainingName, Instruction, ManagerName FROM TrainingView WHERE PlayerID=:LoggedInID");
+        $stmt->bindParam(':LoggedInID', $LoggedInID);
+        $stmt->execute();
+
+        // set the resulting array to associative
+        $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        foreach (new TableRows(new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v) {
+            echo $v;
+        }
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    }
+    $conn = null;
+    echo "</table>";
 
     ?>
   </div>
